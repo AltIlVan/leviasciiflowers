@@ -1,0 +1,573 @@
+/* ==========================================================================
+   Levina's Birthday ASCII Experience - Dark Cinematic & Cyber-Lofi Theme
+   ========================================================================== */
+
+:root {
+  --bg-color: #08080a;
+  --bg-card: rgba(18, 18, 24, 0.75);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --accent-pink: #f472b6;
+  --accent-rose: #fb7185;
+  --accent-purple: #c084fc;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #475569;
+  --font-mono: 'Courier New', Courier, 'Cascadia Code', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  position: relative;
+}
+
+/* CRT Scanline & Grain subtle effect */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.02),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.02)
+  );
+  background-size: 100% 3px, 6px 100%;
+  opacity: 0.7;
+}
+
+/* Vignette */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 998;
+  background: radial-gradient(circle, transparent 55%, rgba(0, 0, 0, 0.85) 100%);
+}
+
+/* Top utility bar */
+.top-bar {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* Views Management */
+.view-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s ease;
+}
+
+.view-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   VIEW 1: CINEMATIC TERMINAL PROLOGUE
+   ========================================================================== */
+#view-prologue {
+  padding: 24px 20px;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+  padding-bottom: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: #22c55e;
+  border-radius: 50%;
+  margin-right: 6px;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.terminal-body {
+  flex: 1;
+  margin: 20px 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Custom scrollbar */
+.terminal-body::-webkit-scrollbar {
+  width: 2px;
+}
+.terminal-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.term-cmd {
+  color: var(--accent-pink);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.term-text {
+  color: var(--text-main);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.term-counter-box {
+  background: rgba(244, 114, 182, 0.08);
+  border: 1px solid rgba(244, 114, 182, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 6px 0;
+  display: inline-block;
+}
+
+.counter-days {
+  font-size: 26px;
+  font-weight: bold;
+  color: var(--accent-pink);
+  text-shadow: 0 0 16px rgba(244, 114, 182, 0.6);
+}
+
+.term-highlight {
+  color: #fbcfe8;
+  font-weight: 600;
+}
+
+.cursor-blink {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background-color: var(--accent-pink);
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Prologue Footer Actions */
+.prologue-footer {
+  padding-top: 10px;
+}
+
+.cyber-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(244, 114, 182, 0.2), rgba(192, 132, 252, 0.2));
+  border: 1px solid var(--accent-pink);
+  border-radius: 12px;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 0 20px rgba(244, 114, 182, 0.25);
+  transition: all 0.2s ease;
+}
+
+.cyber-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 28px rgba(244, 114, 182, 0.5);
+}
+
+/* ==========================================================================
+   VIEW 2: 3D ASCII INTERACTIVE BOUQUET STUDIO
+   ========================================================================== */
+#view-studio {
+  background: radial-gradient(circle at 50% 35%, rgba(30, 20, 36, 0.6) 0%, rgba(8, 8, 10, 1) 70%);
+}
+
+.studio-canvas-container {
+  width: 100%;
+  height: 55%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+
+#bouquet-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.drag-hint {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  animation: fadeInOut 3s infinite alternate;
+}
+
+@keyframes fadeInOut {
+  from { opacity: 0.4; }
+  to { opacity: 0.9; }
+}
+
+/* Mobile Bottom Sheet Controls */
+.studio-controls {
+  width: 100%;
+  height: 45%;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  backdrop-filter: blur(16px);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 20px;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.control-tabs {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tab-btn.active {
+  color: var(--accent-pink);
+  background: rgba(244, 114, 182, 0.1);
+}
+
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  display: none;
+}
+
+.tab-content.active {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Option Chips */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.chip-btn.active {
+  background: rgba(244, 114, 182, 0.2);
+  border-color: var(--accent-pink);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(244, 114, 182, 0.3);
+}
+
+/* Toggle Switches */
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.toggle-switch.on {
+  background: var(--accent-pink);
+}
+
+.toggle-knob {
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s ease;
+}
+
+.toggle-switch.on .toggle-knob {
+  transform: translateX(20px);
+}
+
+/* Studio Bottom Action */
+.studio-action {
+  margin-top: 10px;
+}
+
+.reveal-btn {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #f43f5e, #be185d);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 18px rgba(244, 63, 94, 0.4);
+}
+
+.reveal-btn:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================================
+   FINAL MODAL: LETTER & BIRTHDAY REVEAL
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.letter-card {
+  width: 100%;
+  max-width: 420px;
+  max-height: 85vh;
+  background: #0d0d11;
+  border: 1px solid rgba(244, 114, 182, 0.3);
+  border-radius: 20px;
+  padding: 24px 22px 20px;
+  position: relative;
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(244, 114, 182, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.letter-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.letter-close-x {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.letter-badge {
+  font-size: 10px;
+  color: var(--accent-pink);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.letter-title {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.letter-body {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #cbd5e1;
+  overflow-y: auto;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.letter-body::-webkit-scrollbar {
+  width: 3px;
+}
+.letter-body::-webkit-scrollbar-thumb {
+  background: rgba(244, 114, 182, 0.2);
+  border-radius: 3px;
+}
+
+.stylized-quote {
+  font-style: italic;
+  font-size: 12.5px;
+  color: #fce7f3;
+  background: rgba(244, 114, 182, 0.06);
+  border-left: 2px solid var(--accent-pink);
+  padding: 12px 14px;
+  border-radius: 0 10px 10px 0;
+  line-height: 1.8;
+  letter-spacing: 0.2px;
+}
+
+.highlight-strong {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.closing-sign {
+  color: var(--accent-pink);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.letter-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.close-modal-btn {
+  flex: 1;
+  padding: 11px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+}

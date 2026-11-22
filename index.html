@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>For Levina ✨ | A Bouquet from the Multiverse</title>
+  <meta name="description" content="Cinematic Birthday ASCII 3D Interactive Bouquet for Levina">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
+</head>
+<body>
+
+  <!-- Retro Screen Vignette & CRT Scanline -->
+  <div class="crt-overlay"></div>
+  <div class="vignette"></div>
+
+  <!-- Top Utilities Bar -->
+  <div class="top-bar">
+    <button id="btn-audio" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound">🔊</button>
+  </div>
+
+  <!-- ==========================================================
+       VIEW 1: CINEMATIC TERMINAL PROLOGUE
+       ========================================================== -->
+  <main id="view-prologue" class="view-container">
+    <div class="terminal-header">
+      <div><span class="status-dot"></span>SYS_SESSION: LEVINA_03.log</div>
+      <div id="sys-clock">00:00:00</div>
+    </div>
+
+    <div class="terminal-body" id="term-stream">
+      <!-- Story Lines injected here dynamically with typing animation -->
+    </div>
+
+    <div class="prologue-footer" id="prologue-footer" style="display: none;">
+      <button id="btn-to-studio" class="cyber-btn">
+        <span>[01] A FLOWER, FOR YOU</span>
+        <span>🌸 →</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- ==========================================================
+       VIEW 2: 3D ASCII INTERACTIVE BOUQUET STUDIO
+       ========================================================== -->
+  <section id="view-studio" class="view-container view-hidden">
+    <!-- Top ASCII Viewport with Drag to Rotate -->
+    <div class="studio-canvas-container" id="canvas-wrapper">
+      <div class="drag-hint">👆 Swipe to spin • 3D ASCII</div>
+      <canvas id="bouquet-canvas"></canvas>
+    </div>
+
+    <!-- Bottom Interactive Control Sheet -->
+    <div class="studio-controls">
+      <!-- Tab Bar Navigation -->
+      <div class="control-tabs">
+        <button class="tab-btn active" data-tab="tab-flower">
+          <span>🌸</span>
+          <span>Bunga</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-fillers">
+          <span>✨</span>
+          <span>Hiasan</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-wrap">
+          <span>🎀</span>
+          <span>Bungkus</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-spin">
+          <span>🔄</span>
+          <span>Putaran</span>
+        </button>
+      </div>
+
+      <!-- Tab 1: Flower Selection & Stacking -->
+      <div id="tab-flower" class="tab-content active">
+        <div style="font-size: 11px; color: var(--text-muted);">Pilih tipe & susunan bunga utama:</div>
+        <div class="chip-group">
+          <button class="chip-btn active" data-type="mixed">💐 Campur Warna</button>
+          <button class="chip-btn" data-type="all_pink">🌸 Sweet Pink</button>
+          <button class="chip-btn" data-type="rose_red">🌹 Deep Red</button>
+          <button class="chip-btn" data-type="tulip">🌷 Full Tulips</button>
+          <button class="chip-btn" data-type="daisy">🌼 Daisy Putih</button>
+        </div>
+        <div class="toggle-row" style="margin-top: 4px;">
+          <span>Jumlah Kuntum Bunga</span>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="icon-btn" id="btn-count-dec" style="width: 28px; height: 28px;">-</button>
+            <span id="flower-count-display" style="font-weight: bold; min-width: 20px; text-align: center;">10</span>
+            <button class="icon-btn" id="btn-count-inc" style="width: 28px; height: 28px;">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Fillers (Baby's Breath, Hearts, Sparkles) -->
+      <div id="tab-fillers" class="tab-content">
+        <div class="toggle-row">
+          <span>Baby's Breath (Kabut Putih)</span>
+          <div class="toggle-switch on" id="toggle-baby">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+        <div class="toggle-row">
+          <span>Floating Hearts (Hati Melayang)</span>
+          <div class="toggle-switch on" id="toggle-hearts">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+        <div class="toggle-row">
+          <span>Sparkles (Bintang Berkilau)</span>
+          <div class="toggle-switch on" id="toggle-sparkles">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Paper Wrapping & Ribbon -->
+      <div id="tab-wrap" class="tab-content">
+        <div style="font-size: 11px; color: var(--text-muted);">Warna Kertas Buket:</div>
+        <div class="chip-group">
+          <button class="chip-btn active" data-wrap="kraft">📜 Kraft Estetik</button>
+          <button class="chip-btn" data-wrap="pink">🌸 Soft Pink</button>
+          <button class="chip-btn" data-wrap="dark">🖤 Midnight Dark</button>
+          <button class="chip-btn" data-wrap="white">🤍 Pure White</button>
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">Warna Pita (Ribbon):</div>
+        <div class="chip-group">
+          <button class="chip-btn active" data-ribbon="red">❤️ Ruby Red</button>
+          <button class="chip-btn" data-ribbon="gold">💛 Gold Glow</button>
+          <button class="chip-btn" data-ribbon="lavender">💜 Lavender</button>
+          <button class="chip-btn" data-ribbon="rose">💖 Sweet Rose</button>
+        </div>
+      </div>
+
+      <!-- Tab 4: Bloom & Spin Controls -->
+      <div id="tab-spin" class="tab-content">
+        <div class="toggle-row">
+          <span>Mekarkan Ulang (Re-Bloom)</span>
+          <button class="chip-btn active" id="btn-rebloom" style="padding: 6px 12px;">Bloom ✨</button>
+        </div>
+        <div class="toggle-row">
+          <span>Auto-Spin (Berputar Otomatis)</span>
+          <div class="toggle-switch on" id="toggle-spin">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+        <div class="toggle-row">
+          <span>Kecepatan Putaran</span>
+          <div style="display: flex; gap: 8px;">
+            <button class="chip-btn active" data-speed="0.5">Slow</button>
+            <button class="chip-btn" data-speed="1.0">Medium</button>
+            <button class="chip-btn" data-speed="1.8">Fast</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Action: Send to Levina -->
+      <div class="studio-action">
+        <button id="btn-reveal-letter" class="reveal-btn">
+          <span>Buka Catatan untuk Levina</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       MODAL: FINAL BIRTHDAY LETTER CARD (AESTHETIC & CLEAN)
+       ========================================================== -->
+  <div id="modal-letter" class="modal-overlay">
+    <div class="letter-card">
+      <div class="letter-header-row">
+        <div class="letter-badge">RECORD_03 // CELEBRATION</div>
+        <button id="btn-close-letter-top" class="letter-close-x" aria-label="Close">✕</button>
+      </div>
+      <div class="letter-title">Selamat Ulang Tahun, Levina.</div>
+      
+      <div class="letter-body">
+        <p>Bunga ASCII 3D ini kurangkai khusus untukmu, dari garis-garis kode, trigonometri, dan.. ya ribet lah, ini juga aga experimental bikinnya hehe.</p>
+
+        <div class="stylized-quote">
+          "And if there really are other universes out there, I hope our paths cross just as sweetly as they did here. Perhaps even a little better. And if I knew beforehand everything we would go through, I think I'd still make the same choices, just to find my way to this exact place again."
+        </div>
+
+        <p>Thank you for being part of so many moments, the laughter, the ordinary days, the little things that probably didn't seem like much at the time, but somehow became memories worth keeping. Thank you for being one of the most important strings in my life one that makes this whole little story a little more meaningful.</p>
+
+        <p class="highlight-strong">Happy birthday, Levina.</p>
+
+        <p>I hope this year brings you the kind of happiness that doesn't need much explaining, laughter that leaves your stomach hurting, good health, days that feel a little lighter, and all those dreams you've been quietly carrying finally finding their way into reality.</p>
+
+        <p>And hopefully, in the years ahead, we'll still have plenty of stories to tell, stupid things to laugh about, and birthdays like this to celebrate.</p>
+
+        <p class="closing-sign">I'm genuinely, genuinely glad our paths crossed.</p>
+      </div>
+
+      <div class="letter-actions">
+        <button id="btn-close-letter" class="close-modal-btn">Kembali ke Bunga</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Script Entry -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
